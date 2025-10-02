@@ -31,7 +31,9 @@ CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`people` (
   PRIMARY KEY (`people_id`),
   INDEX `idx_full_name` (`first_name` ASC, `last_name` ASC) VISIBLE,
   INDEX `idx_email` (`email` ASC) VISIBLE,
-  INDEX `idx_phone` (`phone_number` ASC) VISIBLE)
+  INDEX `idx_phone` (`phone_number` ASC) VISIBLE,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  UNIQUE INDEX `phone_number_UNIQUE` (`phone_number` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -139,15 +141,15 @@ CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`course_offering` (
   `course_offering_id` INT NOT NULL AUTO_INCREMENT,
   `section_number` VARCHAR(45) NULL,
   `course_id` INT NOT NULL,
-  `semester_id1` INT NOT NULL,
-  `room_id1` INT NOT NULL,
+  `semester_id` INT NOT NULL,
+  `room_id` INT NOT NULL,
   `faculty_id` INT NOT NULL,
   `audit_user_id` INT NOT NULL,
   `audit_timestamp` TIMESTAMP NOT NULL DEFAULT current_timestamp on update current_timestamp,
   PRIMARY KEY (`course_offering_id`),
   INDEX `fk_course_offering_course1_idx` (`course_id` ASC) VISIBLE,
-  INDEX `fk_course_offering_semester1_idx` (`semester_id1` ASC) VISIBLE,
-  INDEX `fk_course_offering_room1_idx` (`room_id1` ASC) VISIBLE,
+  INDEX `fk_course_offering_semester1_idx` (`semester_id` ASC) VISIBLE,
+  INDEX `fk_course_offering_room1_idx` (`room_id` ASC) VISIBLE,
   INDEX `fk_course_offering_faculty1_idx` (`faculty_id` ASC) VISIBLE,
   CONSTRAINT `fk_course_offering_course`
     FOREIGN KEY (`course_id`)
@@ -155,12 +157,12 @@ CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`course_offering` (
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT `fk_course_offering_semester`
-    FOREIGN KEY (`semester_id1`)
+    FOREIGN KEY (`semester_id`)
     REFERENCES `af25enoca1_college_db`.`semester` (`semester_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT `fk_course_offering_room`
-    FOREIGN KEY (`room_id1`)
+    FOREIGN KEY (`room_id`)
     REFERENCES `af25enoca1_college_db`.`room` (`room_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
