@@ -159,9 +159,9 @@ cd College_V2
 
 The database design is visualized below. This EER diagram maps all entities and relationships in Version 2.
 
-📍 `images/eer.png`
+📍 `assets/eer.png`
 
-![EER Diagram](eer.png)
+![EER Diagram](assets/eer.png)
 
 ---
 
@@ -177,7 +177,6 @@ The following features are planned or proposed for future development:
 * 🧮 Grade calculation & GPA logic
 * 📊 Stored procedures for registration, grading, etc.
 
-See [`todo.md`](todo.md) for the live list of priorities.
 
 ---
 
