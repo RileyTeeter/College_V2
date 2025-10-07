@@ -141,20 +141,21 @@ VALUES
   (20, 3.95, 14,1);
 
 -- 9. Insert letter grades
-INSERT INTO letter_grade (grade_symbol, grade_points, letter_grade_col, audit_user_id)
+INSERT INTO letter_grade (grade_symbol, grade_points, audit_user_id)
 VALUES
-  ('A',4.00,'A',1),
-  ('A‑',3.70,'A-',1),
-  ('B+',3.30,'B+',1),
-  ('B',3.00,'B',1),
-  ('B‑',2.70,'B-',1),
-  ('C+',2.30,'C+',1),
-  ('C',2.00,'C',1),
-  ('C‑',1.70,'C-',1),
-  ('D',1.00,'D',1),
-  ('F',0.00,'F',1),
-  ('I',0.00,'I',1),
-  ('W',0.00,'W',1);
+  ('A', 4.00, 1),
+  ('A‑', 3.70, 1),
+  ('B+', 3.30, 1),
+  ('B', 3.00, 1),
+  ('B‑', 2.70, 1),
+  ('C+', 2.30, 1),
+  ('C', 2.00, 1),
+  ('C‑', 1.70, 1),
+  ('D', 1.00, 1),
+  ('F', 0.00, 1),
+  ('I', 0.00, 1),
+  ('W', 0.00, 1);
+
 
 -- 10. Insert course offerings (sections)
 INSERT INTO course_offering (section_number, course_id, semester_id, room_id, faculty_id, audit_user_id)
