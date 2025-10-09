@@ -213,11 +213,11 @@ INSERT INTO `staff` (people_id,department_id,audit_user_id) VALUES
 -- STUDENT_STATUS
 -- -----------------------------------------------------
 INSERT INTO `student_status` (status_id,status,audit_user_id) VALUES
-(1,'Enrolled',1,1),
-(2,'Graduated',1,1),
-(3,'Leave of Absence',1,1),
-(4,'Deferred',1,1),
-(5,'Withdrawn',1,1);
+(1,'Enrolled',1),
+(2,'Graduated',1),
+(3,'Leave of Absence',1),
+(4,'Deferred',1),
+(5,'Withdrawn',1);
 
 -- -----------------------------------------------------
 -- STUDENTS (people 81..200 -> 120 students)
