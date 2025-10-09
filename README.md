@@ -99,6 +99,84 @@ Designed for use with **MySQL Workbench** the system emphasizes normalization, k
 
 ---
 
+## 📊 Built-in Views
+
+These read-only views give quick answers to common questions for students, advisors, and department staff. They’re designed to be simple, fast to scan, and easy to filter by term.
+
+---
+
+## 1) 📚 `course_catalog` (Course Catalog)
+
+**Purpose:** One place to browse **what’s offered**, **who teaches it**, **when**, and **where** — helpful for registration planning and departmental audits.
+
+**Columns (as defined):**
+- `course_code`
+- `course_title`
+- `credits`
+- `department_name`
+- `instructor` *(full name from People)*
+- `semester_term`
+- `start_date`, `end_date`, `year`
+- `room_number`, `building`
+
+**Notes:** Includes only courses that have an associated **course offering** (joined to faculty, semester, and room).  
+
+---
+
+## 2) 🎓 `enrollment_summary` 
+
+**Purpose:** Quickly see **how full** a section is and its **average grade** signal per offering/term.
+
+**Columns (as defined):**
+- `course_code`
+- `course_title`
+- `semester_term`, `year`
+- `instructor`
+- `student_id` 
+- `avg_grade` *(average of `letter_grade.grade_points`)*
+- `capacity` *(room capacity)*
+
+**Notes:** Aggregates enrollments and letter grades by course offering; currently grouped by `course_code`.  
+
+---
+
+## 3) 👩‍🏫 `faculty_directory` 
+
+**Purpose:** A simple faculty directory augmented with **department**, **current/linked course titles**, and **room location** context.
+
+**Columns (as defined):**
+- `faculty_id`
+- `full_name`
+- `email`
+- `department_name`
+- `office_location`
+- `course_title` 
+- `room_number`, `building`
+
+**Notes:** Joins across faculty → people/department and through course/course_offering to include teaching context.  
+
+---
+
+### 4) 🧭 `advisor_snapshot` — Advisor Advisee Snapshot (per term)
+
+**Purpose:** Give advisors a per-term snapshot of each advisee with identity, standing, course load, and quick contact info. Use it to see who’s taking how many classes, total credits this term, and who may need outreach.
+
+**Columns (as defined):**
+- `faculty_id` 
+- `advisor_name` 
+- `student_id` 
+- `student_name`  
+- `status` — student standing (e.g., Good Standing / Probation)  
+- `semester_term`, `year`  
+- `courses_enrolled` — number of enrollments this term  
+- `total_credits_this_term` — sum of course credits this term  
+- `cumulative_gpa` — student’s cumulative GPA  
+- `email` 
+
+**Intended use:** Advisor dashboards, advisee check-ins, and quick pre-meeting reviews.
+
+---
+
 ## 🔐 Constraints & Notes
 
 * ✅ **Referential Integrity**: All FKs are enforced via `FOREIGN KEY` constraints
