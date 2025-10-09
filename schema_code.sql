@@ -5,19 +5,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema af25enoca1_college_db
+-- Schema af25enoca1_college_db_v2
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema af25enoca1_college_db
+-- Schema af25enoca1_college_db_v2
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `af25enoca1_college_db` DEFAULT CHARACTER SET utf8 ;
-USE `af25enoca1_college_db` ;
+CREATE SCHEMA IF NOT EXISTS `af25enoca1_college_db_v2` DEFAULT CHARACTER SET utf8 ;
+USE `af25enoca1_college_db_v2` ;
 
 -- -----------------------------------------------------
--- Table `af25enoca1_college_db`.`people`
+-- Table `af25enoca1_college_db_v2`.`people`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`people` (
+CREATE TABLE IF NOT EXISTS `af25enoca1_college_db_v2`.`people` (
   `people_id` INT NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,
@@ -38,9 +38,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `af25enoca1_college_db`.`department`
+-- Table `af25enoca1_college_db_v2`.`department`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`department` (
+CREATE TABLE IF NOT EXISTS `af25enoca1_college_db_v2`.`department` (
   `department_id` INT NOT NULL AUTO_INCREMENT,
   `department_name` VARCHAR(45) NOT NULL,
   `audit_user_id` INT NOT NULL,
@@ -51,9 +51,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `af25enoca1_college_db`.`semester`
+-- Table `af25enoca1_college_db_v2`.`semester`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`semester` (
+CREATE TABLE IF NOT EXISTS `af25enoca1_college_db_v2`.`semester` (
   `semester_id` INT NOT NULL AUTO_INCREMENT,
   `semester_term` VARCHAR(45) NOT NULL COMMENT 'Possible values:\nSummer\nFall\nSpring\n',
   `audit_user_id` INT NOT NULL,
@@ -70,9 +70,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `af25enoca1_college_db`.`room`
+-- Table `af25enoca1_college_db_v2`.`room`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`room` (
+CREATE TABLE IF NOT EXISTS `af25enoca1_college_db_v2`.`room` (
   `room_id` INT NOT NULL AUTO_INCREMENT,
   `room_number` VARCHAR(45) NOT NULL,
   `building` VARCHAR(255) NOT NULL,
@@ -86,9 +86,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `af25enoca1_college_db`.`course`
+-- Table `af25enoca1_college_db_v2`.`course`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`course` (
+CREATE TABLE IF NOT EXISTS `af25enoca1_college_db_v2`.`course` (
   `course_id` INT NOT NULL AUTO_INCREMENT,
   `course_code` VARCHAR(20) NOT NULL,
   `course_title` VARCHAR(45) NOT NULL,
@@ -102,16 +102,16 @@ CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`course` (
   INDEX `idx_course_department` (`department_id` ASC) VISIBLE,
   CONSTRAINT `fk_course_department`
     FOREIGN KEY (`department_id`)
-    REFERENCES `af25enoca1_college_db`.`department` (`department_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`department` (`department_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `af25enoca1_college_db`.`faculty`
+-- Table `af25enoca1_college_db_v2`.`faculty`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`faculty` (
+CREATE TABLE IF NOT EXISTS `af25enoca1_college_db_v2`.`faculty` (
   `faculty_id` INT NOT NULL AUTO_INCREMENT,
   `people_id` INT NOT NULL,
   `department_id` INT NOT NULL,
@@ -123,21 +123,21 @@ CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`faculty` (
   INDEX `fk_faculty_department1_idx` (`department_id` ASC) VISIBLE,
   CONSTRAINT `fk_faculty_people`
     FOREIGN KEY (`people_id`)
-    REFERENCES `af25enoca1_college_db`.`people` (`people_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`people` (`people_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT `fk_faculty_department`
     FOREIGN KEY (`department_id`)
-    REFERENCES `af25enoca1_college_db`.`department` (`department_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`department` (`department_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `af25enoca1_college_db`.`course_offering`
+-- Table `af25enoca1_college_db_v2`.`course_offering`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`course_offering` (
+CREATE TABLE IF NOT EXISTS `af25enoca1_college_db_v2`.`course_offering` (
   `course_offering_id` INT NOT NULL AUTO_INCREMENT,
   `section_number` VARCHAR(45) NULL,
   `course_id` INT NOT NULL,
@@ -153,35 +153,34 @@ CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`course_offering` (
   INDEX `fk_course_offering_faculty1_idx` (`faculty_id` ASC) VISIBLE,
   CONSTRAINT `fk_course_offering_course`
     FOREIGN KEY (`course_id`)
-    REFERENCES `af25enoca1_college_db`.`course` (`course_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`course` (`course_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT `fk_course_offering_semester`
     FOREIGN KEY (`semester_id`)
-    REFERENCES `af25enoca1_college_db`.`semester` (`semester_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`semester` (`semester_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT `fk_course_offering_room`
     FOREIGN KEY (`room_id`)
-    REFERENCES `af25enoca1_college_db`.`room` (`room_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`room` (`room_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT `fk_course_offering_faculty`
     FOREIGN KEY (`faculty_id`)
-    REFERENCES `af25enoca1_college_db`.`faculty` (`faculty_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`faculty` (`faculty_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `af25enoca1_college_db`.`letter_grade`
+-- Table `af25enoca1_college_db_v2`.`letter_grade`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`letter_grade` (
+CREATE TABLE IF NOT EXISTS `af25enoca1_college_db_v2`.`letter_grade` (
   `letter_grade_id` INT NOT NULL AUTO_INCREMENT,
   `grade_symbol` VARCHAR(45) NOT NULL COMMENT '(A, B, C, D, F, I, W)',
   `grade_points` DECIMAL(3,2) NOT NULL COMMENT '(4.0, 3.0, …)',
-  `letter_grade_col` VARCHAR(45) NOT NULL,
   `audit_user_id` INT NOT NULL,
   `audit_timestamp` TIMESTAMP NOT NULL DEFAULT current_timestamp on update current_timestamp,
   PRIMARY KEY (`letter_grade_id`))
@@ -189,35 +188,57 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `af25enoca1_college_db`.`student`
+-- Table `af25enoca1_college_db_v2`.`student_status`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`student` (
+CREATE TABLE IF NOT EXISTS `af25enoca1_college_db_v2`.`student_status` (
+  `status_id` INT NOT NULL,
+  `status` VARCHAR(255) NULL,
+  `audit_user_id` INT NOT NULL,
+  `audit_timestamp` TIMESTAMP NOT NULL DEFAULT current_timestamp on update current_timestamp,
+  PRIMARY KEY (`status_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `af25enoca1_college_db_v2`.`student`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `af25enoca1_college_db_v2`.`student` (
   `student_id` INT NOT NULL AUTO_INCREMENT,
   `people_id` INT NOT NULL,
   `cumulative_gpa` DECIMAL(3,2) NOT NULL,
   `advisor_id` INT NOT NULL,
   `audit_user_id` INT NOT NULL,
   `audit_timestamp` TIMESTAMP NOT NULL DEFAULT current_timestamp on update current_timestamp,
+  `admission_date` DATE NULL,
+  `graduation_date` DATE NULL,
+  `dorm_room_id` INT NULL,
+  `student_status_id` INT NOT NULL,
   PRIMARY KEY (`student_id`),
   INDEX `fk_people_student_id_idx` (`people_id` ASC) VISIBLE,
   INDEX `fk_student_faculty1_idx` (`advisor_id` ASC) VISIBLE,
+  INDEX `fk_student_student_status1_idx` (`student_status_id` ASC) VISIBLE,
   CONSTRAINT `fk_student_people`
     FOREIGN KEY (`people_id`)
-    REFERENCES `af25enoca1_college_db`.`people` (`people_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`people` (`people_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT `fk_student_faculty`
     FOREIGN KEY (`advisor_id`)
-    REFERENCES `af25enoca1_college_db`.`faculty` (`faculty_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`faculty` (`faculty_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_student_student_status1`
+    FOREIGN KEY (`student_status_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`student_status` (`status_id`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `af25enoca1_college_db`.`enrollment`
+-- Table `af25enoca1_college_db_v2`.`enrollment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`enrollment` (
+CREATE TABLE IF NOT EXISTS `af25enoca1_college_db_v2`.`enrollment` (
   `enrollment_id` INT NOT NULL AUTO_INCREMENT,
   `letter_grade_id` INT NOT NULL,
   `student_id` INT NOT NULL,
@@ -230,26 +251,26 @@ CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`enrollment` (
   INDEX `fk_enrollment_course_offering1_idx` (`course_offering_id` ASC) VISIBLE,
   CONSTRAINT `fk_enrollment_letter_grade`
     FOREIGN KEY (`letter_grade_id`)
-    REFERENCES `af25enoca1_college_db`.`letter_grade` (`letter_grade_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`letter_grade` (`letter_grade_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT `fk_enrollment_student`
     FOREIGN KEY (`student_id`)
-    REFERENCES `af25enoca1_college_db`.`student` (`student_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`student` (`student_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT `fk_enrollment_course_offering`
     FOREIGN KEY (`course_offering_id`)
-    REFERENCES `af25enoca1_college_db`.`course_offering` (`course_offering_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`course_offering` (`course_offering_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `af25enoca1_college_db`.`staff`
+-- Table `af25enoca1_college_db_v2`.`staff`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`staff` (
+CREATE TABLE IF NOT EXISTS `af25enoca1_college_db_v2`.`staff` (
   `staff_id` INT NOT NULL AUTO_INCREMENT,
   `people_id` INT NOT NULL,
   `department_id` INT NOT NULL,
@@ -260,12 +281,12 @@ CREATE TABLE IF NOT EXISTS `af25enoca1_college_db`.`staff` (
   INDEX `fk_staff_department1_idx` (`department_id` ASC) VISIBLE,
   CONSTRAINT `fk_staff_people`
     FOREIGN KEY (`people_id`)
-    REFERENCES `af25enoca1_college_db`.`people` (`people_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`people` (`people_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT `fk_staff_department`
     FOREIGN KEY (`department_id`)
-    REFERENCES `af25enoca1_college_db`.`department` (`department_id`)
+    REFERENCES `af25enoca1_college_db_v2`.`department` (`department_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
