@@ -136,8 +136,6 @@ These read-only views give quick answers to common questions for students, advis
 - `avg_grade` *(average of `letter_grade.grade_points`)*
 - `capacity` *(room capacity)*
 
-**Notes:** Aggregates enrollments and letter grades by course offering; currently grouped by `course_code`.  
-
 ---
 
 ## 3) 👩‍🏫 `faculty_directory` 
