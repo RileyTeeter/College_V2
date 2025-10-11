@@ -10,10 +10,8 @@ Designed for use with **MySQL Workbench** the system emphasizes normalization, k
 ## 📑 Table of Contents
 
 1. [🗃️ Entities and Relationships](#️-entities-and-relationships)
-
    * [📌 Main Tables](#-main-tables)
 2. [📋 Table Structure Summary](#-table-structure-summary)
-
    * [`Student`](#student)
    * [`Faculty`](#faculty)
    * [`Course`](#course)
@@ -22,12 +20,22 @@ Designed for use with **MySQL Workbench** the system emphasizes normalization, k
    * [`Semester`](#semester)
    * [`Room`](#room)
    * [`Course_Offering`](#course_offering)
-3. [🔐 Constraints & Notes](#-constraints--notes)
-4. [📂 Files](#-files)
-5. [🚀 Getting Started](#-getting-started)
-6. [📈 Future Enhancements (Version 3+)](#-future-enhancements-version-3)
-7. [👥 Contributors](#-contributors)
-8. [💬 Feedback or Contributions?](#-feedback-or-contributions)
+3. [📊 Built-in Views](#-built-in-views)
+   * [Course Catalog](#1--course-catalog)
+   * [Enrollment Summary](#2--enrollment_summary)
+   * [Faculty Directory](#3--faculty_directory)
+   * [Advisor Snapshot](#4--advisor_snapshot)
+   * [Room Schedule](#5--room_schedule)
+   * [Student Directory](#6--student_directory)
+   * [Student Transcript](#7--student_transcript)
+   * [Grade Distribution](#8--grade_distribution_by_offering)
+4. [🔐 Constraints & Notes](#-constraints--notes)
+5. [📂 Files](#-files)
+6. [🚀 Getting Started](#-getting-started)
+7. [🖼️ EER Diagram](#-eer-diagram)
+8. [📈 Future Enhancements (Version 3)](#-future-enhancements-version-3)
+9. [👥 Contributors](#-contributors)
+10. [💬 Feedback or Contributions?](#-feedback-or-contributions)
 
 ---
 
@@ -139,6 +147,7 @@ These read-only views give quick answers to common questions for students, advis
 **Notes:** Aggregates enrollments and letter grades by course offering; currently grouped by `course_code`.  
 
 ---
+### Views by Riley
 
 ## 3) 👩‍🏫 `faculty_directory` 
 
@@ -177,6 +186,64 @@ These read-only views give quick answers to common questions for students, advis
 
 ---
 
+### Views by Enoch
+
+## 5) 🗓️ `room_schedule` (Room Schedule)
+
+**Purpose:** Per-room list of all scheduled sections, with instructor and term window, to support facilities planning and conflict checks.
+
+**Why it matters / common uses:**
+
+* Helps **registrar and facilities** teams verify no double-bookings and find open slots.
+* Supports **room-utilization** analysis (e.g., peak hours, underused spaces).
+* Handy for **day-of operations** (knowing which class is in which room and when).
+
+**Notes:** Includes only sections attached to a specific **room** and **semester**; optimized for operational visibility and utilization dashboards.
+
+
+## 6) 👥 `student_directory` (Student Directory)
+
+
+**Purpose:** Central view of student identity, contact info, current standing, GPA, milestones, and assigned **advisor** (with contact/department).
+
+**Why it matters / common uses:**
+
+* One-stop **advising** and **outreach** reference for contacting students and advisors quickly.
+* Supports **progress tracking** (standing, admit/grad dates) and light analytics at the program/department level.
+* Useful for **case management** and escalations (who to call, who mentors the student).
+
+**Notes:** Connects Student → People for identity, Student → Faculty/People for advisor, and ties to status and milestone dates for quick context.
+
+
+## 7) 📝 `student_transcript` (Student Transcript)
+
+**Purpose:** One row per student enrollment capturing course, term, instructor, and grading outcome; includes calculated **quality points** for GPA math.
+
+**Why it matters / common uses:**
+
+* Backbone for **GPA calculation**, **degree audits**, and **appeals**.
+* Enables **term-by-term** and **cumulative** performance analysis.
+* Supports prerequisite validation and historical performance reviews for committees.
+
+**Notes:** Encodes grade → points mapping and multiplies by credits for **quality points** (non-evaluative grades contribute `NULL`), making it ready for GPA aggregations.
+
+
+## 8) 📊 `grade_distribution_by_offering` (Grade Distribution by Offering)
+
+**Purpose:** One row per student enrollment capturing course, term, instructor, and grading outcome; includes calculated **quality points** for GPA math.
+
+**Why it matters / common uses:**
+
+* Backbone for **GPA calculation**, **degree audits**, and **appeals**.
+* Enables **term-by-term** and **cumulative** performance analysis.
+* Supports prerequisite validation and historical performance reviews for committees.
+
+**Notes:** Encodes grade → points mapping and multiplies by credits for **quality points** (non-evaluative grades contribute `NULL`), making it ready for GPA aggregations.
+
+
+
+---
+
 ## 🔐 Constraints & Notes
 
 * ✅ **Referential Integrity**: All FKs are enforced via `FOREIGN KEY` constraints
@@ -189,47 +256,49 @@ These read-only views give quick answers to common questions for students, advis
 
 ## 📂 Files
 
-| File              | Description                                     |
-| ----------------- | ----------------------------------------------- |
-| `schema_code.sql` | SQL script to create the entire database schema |
-| `create_data.sql` | Script to populate sample records for testing   |
-| `py_script.py`    | Python script for interacting with the database |
-| `college_v1.mwb`  | MySQL Workbench model (original/base version)   |
-| `college_v2.mwb`  | Updated MWB model representing Version 2        |
-| `eer.png`         | Visual EER diagram (exported image)             |
-| `todo.md`         | Developer notes for future improvements         |
-| `README.md`       | This documentation file                         |
+| File/Directory          | Description                                          |
+| ---------------------- | ---------------------------------------------------- |
+| `schema_code.sql`      | SQL script to create the entire database schema      |
+| `create_data.sql`      | Script to populate sample records for testing        |
+| `more_data.sql`        | Additional sample data for testing                   |
+| `more_data_fixed.sql`  | Fixed version of additional sample data              |
+| `py_script.py`         | Python script for interacting with the database      |
+| `college_v1.mwb`       | MySQL Workbench model (original/base version)        |
+| `college_v2.mwb`       | Updated MWB model representing Version 2             |
+| `inclass_view.sql`     | SQL views created during class demonstrations        |
+| `making_views.sql`     | SQL script for creating various database views       |
+| `sample_queries.sql`   | Example queries for testing and demonstration        |
+| `views_enoch/`         | Directory containing Enoch's view implementations    |
+| `views_riley/`         | Directory containing Riley's view implementations    |
+| `assets/`             | Directory containing diagrams and documentation      |
+| `README.md`           | This documentation file                              |
 
 ---
 
 ## 🚀 Getting Started
 
-1. **Clone the repository**
-
-```bash
-git clone https://github.com/RileyTeeter/College_V2.git
-cd College_V2
-```
-
-2. **Set up the schema**
+1. **Set up the database**
 
    * Create a new database in MySQL
    * Run `schema_code.sql` to create tables and constraints
-   * Run `create_data.sql` to insert sample data
+   * Run `create_data.sql` to insert initial sample data
+   * (Optional) Run `more_data_fixed.sql` for additional sample records
+
+2. **Set up views**
+
+   * Execute the view creation scripts from both `views_riley/` and `views_enoch/` directories
+   * Alternatively, run `making_views.sql` for a comprehensive view setup
 
 3. **Use MySQL Workbench** (Optional)
 
    * Open `college_v2.mwb` to inspect and modify schema visually
-   * Refer to `eer.png` if MySQL Workbench is unavailable
+   * Refer to `assets/eer.png` for a quick view of the database structure
 
-4. **Run the Python Script**
+4. **Explore the database**
 
-   * Make sure your DB credentials are correct in `py_script.py`
-   * Run using Python 3:
-
-     ```bash
-     python py_script.py
-     ```
+   * Use `sample_queries.sql` to test and understand the schema
+   * Review the Built-in Views section above for available data views
+   * Make sure your DB credentials are correct in `py_script.py` if using Python interface
 
 ---
 
